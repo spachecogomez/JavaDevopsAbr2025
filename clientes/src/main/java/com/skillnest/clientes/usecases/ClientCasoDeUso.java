@@ -7,35 +7,40 @@ import com.skillnest.clientes.entities.repositories.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
-public class ClientService implements IClienteCasoUso {
+public class ClientCasoDeUso implements IClienteCasoUso {
 
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
 
     @Override
-    public List<Client> getAllClients() {
+    public List<ClientDTO> getAllClients() {
 
-        return StreamSupport.stream(clientRepository.findAll().spliterator(), false).toList();
+        return StreamSupport.stream(clientRepository.findAll().spliterator(), false)
+                .toList().stream().map(clientMapper::clientToClientDTO).toList();
     }
 
     @Override
-    public Client getClientById(Long id) {
-        return clientRepository.findById(id).orElse(null);
+    public ClientDTO getClientById(Long id) {
+        Client client = clientRepository.findById(id).orElse(null);
+        return client == null ? null : clientMapper.clientToClientDTO(client);
     }
 
     @Override
-    public Client saveClient(Client client) {
-        return clientRepository.save(client);
+    public ClientDTO saveClient(ClientDTO clientDTO) {
+        Client client = clientMapper.clientDTOToClient(clientDTO);
+        client = clientRepository.save(client);
+        return clientMapper.clientToClientDTO(client);
     }
 
     @Override
-    public Client updateClient(Client client) {
-        return clientRepository.save(client);
+    public ClientDTO updateClient(ClientDTO clientDTO) {
+        Client client = clientMapper.clientDTOToClient(clientDTO);
+        client = clientRepository.save(client);
+        return clientMapper.clientToClientDTO(client);
     }
 }

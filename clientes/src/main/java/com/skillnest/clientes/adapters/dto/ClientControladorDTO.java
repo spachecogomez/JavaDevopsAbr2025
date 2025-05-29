@@ -1,4 +1,11 @@
 package com.skillnest.clientes.adapters.dto;
 
-public class Client2DTO {
+import lombok.Data;
+
+@Data
+public class ClientControladorDTO {
+
+    private Long identificacion;
+    private String nombreCompleto;
+    private String correo;
 }
