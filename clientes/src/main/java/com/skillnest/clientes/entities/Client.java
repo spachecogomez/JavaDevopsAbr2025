@@ -1,10 +1,6 @@
 package com.skillnest.clientes.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -15,6 +11,7 @@ public class Client {
 
 	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	@Column(name = "ID")
+	@Id
 	private Long id;
 
 	@Column(name = "NOMBRE")
